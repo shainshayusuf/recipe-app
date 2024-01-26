@@ -1,0 +1,209 @@
+.recipeTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.recipeTile__img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.recipeTile__name {
+  max-width: 200px;
+  text-align: center;
+  margin: 12px 0px;
+}
+
+/* RecipeListCard.css */
+
+.recipe-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Adjusted grid template rows for flexible layout */
+  height: 100%; /* Set the height to 100% for better responsiveness */
+}
+
+.recipe-card:hover {
+  transform: scale(1.05);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+
+
+
+.recipe-title {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.recipe-description {
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.recipe-url a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.favorite {
+  border: 2px solid #f39c12 !important;
+}
+
+.favorite-button {
+  background-color: white;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.favorite-button.favorited {
+  background-color: #f39c12;
+}
+
+/* Responsive Styles */
+
+@media screen and (max-width: 600px) {
+  .recipe-image {
+    height: 150px;
+  }
+}
+
+/* RecipeList.css */
+
+.recipe-list-container {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Larger screens: 3 cards */
+@media screen and (min-width: 1024px) {
+  .recipe-list-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Medium-sized screens: 2 cards */
+@media screen and (max-width: 1023px) and (min-width: 600px) {
+  .recipe-list-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile-sized screens: 1 card */
+@media screen and (max-width: 599px) {
+  .recipe-list-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+/* RecipeCard.css */
+
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.recipe-details {
+  flex: 1;
+}
+
+.recipe-details h3 {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.recipe-details p {
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.recipe-details ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.recipe-details ul li {
+  margin-bottom: 4px;
+  color: #888;
+}
+
+.health-labels {
+  margin-top: 10px;
+}
+
+.health-labels strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #4caf50; /* Green color for health labels */
+}
+
+.health-labels ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.health-labels ul li {
+  margin-bottom: 4px;
+  color: #4caf50;
+}
+
+.recipe-label-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.recipe-action {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.recipe-icons {
+  display: flex;
+  gap: 10px;
+}
+
