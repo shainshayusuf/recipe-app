@@ -1,80 +1,39 @@
 import { useState } from "react";
-import "./style.css";
-
-
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import LinkIcon from '@material-ui/icons/Link';
+
 import Modal from "../../common/Modal";
 
+import "./style.css";
+import { Tooltip } from "@material-ui/core";
 
-
-export default function RecipeList({ recipe }: { recipe: any }) {
-  return (
-    recipe["recipe"]["image"] && (
-     <RecipeCard recipe={recipe["recipe"]} />
-    )
-  );
-}
-
-
-
-const RecipeListCard = ({ recipe }: { recipe: any }) => {
-  const [isFavorite, setFavorite] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const toggleFavorite = () => {
-    setFavorite(!isFavorite);
-  };
-
-  return (
-    <div 
-    className={`recipe-card ${isFavorite ? 'favorite' : ''}`}
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}>
-      <img src={recipe.image} alt={recipe.label} className="recipe-image" />
-      <div className="recipe-details">
-        <h2 className="recipe-title">{recipe.label}</h2>
-        <p className="recipe-description">{recipe.description}</p>
-        <p className="recipe-url">
-          <a href={recipe.url} target="_blank" rel="noopener noreferrer">
-            View Recipe
-          </a>
-        </p>
-        {/* {isHovered && (
-          <button className="favorite-button" onClick={toggleFavorite}> */}
-            <FavoriteIcon style={{color : isFavorite ? '#f39c12' : 'gray'}} onClick={toggleFavorite} />
-            {/* <FontAwesomeIcon icon={faHeart} color={isFavorite ? 'red' : 'gray'} />
-          </button>
-        )} */}
-      </div>
-    </div>
-  );
-};
-
-const RecipeCard = ({ recipe }: { recipe: any }) => {
-  const { label, image, healthLabels, url } = recipe;
+export default function RecipeCard({ recipe , toggleFavourites }: { recipe: any , toggleFavourites : any }) {
+  const { label, image, healthLabels, url, ingredients } = recipe;
 
   const [isFavorite, setFavorite] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const toggleFavorite = () => {
+    toggleFavourites({name : label , url} , !isFavorite);
     setFavorite(!isFavorite);
   };
 
   return (
     <div className={`recipe-card ${isFavorite ? 'favorite' : ''}`}>
       <div className="recipe-label-info"> <img src={image} alt={label} />
-       <div className="recipe-action">
-       <div className="recipe-details">
-          <h3>{label}</h3>
+        <div className="recipe-action">
+          <div className="recipe-details-wrapper">
+            <Tooltip title={label}>
+              <h3 className="recipe-details">{label}</h3>
+            </Tooltip>
+          </div>
+          <div className="recipe-icons">
+            <FavoriteIcon style={{ color: isFavorite ? '#f39c12' : 'gray', cursor: 'pointer' }} onClick={toggleFavorite} />
+            <VisibilityIcon style={{ color: 'gray', cursor: 'pointer' }} fontSize="default" onClick={() => setShowModal(true)} />
+            <LinkIcon style={{ color: 'gray', cursor: 'pointer' }} fontSize="default" onClick={() => window.open(url)} />
+          </div>
         </div>
-        <div className="recipe-icons">
-        <FavoriteIcon style={{color : isFavorite ? '#f39c12' : 'gray' , cursor :'pointer'}} onClick={toggleFavorite} />
-        <VisibilityIcon style={{color : 'gray' , cursor :'pointer'}} fontSize="default" onClick={() => setShowModal(true)} /> 
-        <LinkIcon style={{color : 'gray' , cursor :'pointer'}} fontSize="default" onClick={() => window.open(url)} />
-        </div>
-       </div>
       </div>
       <div>
         {healthLabels && (
@@ -86,7 +45,25 @@ const RecipeCard = ({ recipe }: { recipe: any }) => {
           </div>
         )}
       </div>
-      <Modal showModal={showModal} closeModal={() => setShowModal(false)}/>
+     {showModal &&  <Modal
+        showModal={showModal}
+        closeModal={() => setShowModal(false)}
+        title="Recipe Details">
+        <h3>Ingredients:</h3>
+        {ingredients.map((ingredient: any, index: number) => (
+          <div key={index} className="ingredient">
+            <img src={ingredient.image} alt={ingredient.food} />
+            <div className="ingredient-info">
+              <p>{ingredient.text}</p>
+              <p>{ingredient.measure}</p>
+            </div>
+            <div className="ingredient-measure">
+              <p>Quantity: {ingredient.quantity.toFixed(2)}</p>
+              <p>Weight: {ingredient.weight.toFixed(2)}</p> {/* Format weight to two decimal places */}
+            </div>
+          </div>
+        ))}
+      </Modal>}
     </div>
   );
 };
