@@ -5,31 +5,26 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import RecipeCard from "../recipe-tile";
 import Spinner from "../../common/Spinner";
 
+import { Favourite, RecipeResponse } from "../../interfaces";
 import { get_recipes } from "../../api/recipe";
 
 import "./style.css";
 
 
-
-const ITEM_HEIGHT = 48;
-
 function Home() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [recipeData, setRecipeData] = useState([]);
-    const [favorites, setFavorites] = useState<any[]>([]);
-    const [noResults, setNoResults] = useState(false);
-    const [hasInteracted, setHasInteracted] = useState(false);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [recipeData, setRecipeData] = useState<RecipeResponse[]>([]);
+    const [favorites, setFavorites] = useState<Favourite[]>([]);
     const [loading, setLoading] = useState(false);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
-        setHasInteracted(true);
     };
 
     const fetchRecipes = async () => {
         setLoading(true);
         try {
-            if (!searchQuery || !hasInteracted) {
+            if (!searchQuery) {
                 return;
             }
 
@@ -37,10 +32,8 @@ function Home() {
 
             if (data.hits && data.hits.length > 0) {
                 setRecipeData(data.hits);
-                setNoResults(false);
             } else {
                 setRecipeData([]);
-                setNoResults(true);
             }
         } catch (error) {
             console.error('Error fetching recipes:', error);
@@ -58,27 +51,26 @@ function Home() {
     useEffect(() => {
         if (!searchQuery) {
             setRecipeData([]);
-            setNoResults(false);
         }
     }, [searchQuery]);
 
-    const handleFavourites = (label: any, isFavourite: boolean) => {
+    const handleFavourites = (label: Favourite, isFavourite: boolean) => {
         if (isFavourite) {
             setFavorites([...favorites, label]);
         }
         else {
-            setFavorites(favorites.filter((fav: any) => fav.name !== label.name));
+            setFavorites(favorites.filter((fav: Favourite) => fav.name !== label.name));
         }
     }
 
     //For handling the favorites menu
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState<HTMLElement>();
     const open = Boolean(anchorEl);
-    const handleClick = (event: any) => {
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-        setAnchorEl(null);
+        setAnchorEl(undefined);
     };
 
     return (
@@ -120,13 +112,13 @@ function Home() {
             </div>
 
             <div>
-                {(!searchQuery && hasInteracted) ? (
+                {(!searchQuery ) ? (
                     <p>Start typing in the search bar to find delicious recipes!</p>
-                ) : noResults ? (
+                ) : searchQuery && recipeData.length === 0 ? (
                     <p>No results found for "{searchQuery}". Please try a different search.</p>
                 ) : (
                     recipeData.length > 0 && <div className="recipe-list-container">
-                        {recipeData.map((recipe: any, index: number) => <RecipeCard key={index} recipe={recipe.recipe} toggleFavourites={(recipe: any, isFavorite: any) => handleFavourites(recipe, isFavorite)} />)}
+                        {recipeData.map((recipe: RecipeResponse, index: number) => <RecipeCard key={index} recipe={recipe.recipe} toggleFavourites={(favourite: Favourite, isFavorite: boolean) => handleFavourites(favourite, isFavorite)} />)}
                     </div>
                 )}
             </div>

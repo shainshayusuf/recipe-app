@@ -1,3 +1,4 @@
+import { RecipeApiResponse } from "../interfaces";
 import Fetch from "./fetch";
 
 const fetch = new Fetch({
@@ -9,4 +10,4 @@ const fetch = new Fetch({
 
 export const get_recipes = async (
     search_query: string,
-  ) => await fetch.makeRequest(`/search?q=${search_query}`);
+  ) : Promise<RecipeApiResponse> => await fetch.makeRequest(`/search?q=${search_query}`);

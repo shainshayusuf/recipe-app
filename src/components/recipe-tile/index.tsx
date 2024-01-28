@@ -2,13 +2,15 @@ import { useState } from "react";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import LinkIcon from '@material-ui/icons/Link';
+import { Tooltip } from "@material-ui/core";
 
+import { Favourite, Recipe, RecipeIngredient } from "../../interfaces";
 import Modal from "../../common/Modal";
 
 import "./style.css";
-import { Tooltip } from "@material-ui/core";
 
-export default function RecipeCard({ recipe , toggleFavourites }: { recipe: any , toggleFavourites : any }) {
+export default function RecipeCard({ recipe , toggleFavourites }:
+   { recipe: Recipe , toggleFavourites : (favourite : Favourite , isFavorite : boolean) => void }) {
   const { label, image, healthLabels, url, ingredients } = recipe;
 
   const [isFavorite, setFavorite] = useState(false);
@@ -50,7 +52,7 @@ export default function RecipeCard({ recipe , toggleFavourites }: { recipe: any 
         closeModal={() => setShowModal(false)}
         title="Recipe Details">
         <h3>Ingredients:</h3>
-        {ingredients.map((ingredient: any, index: number) => (
+        {ingredients.map((ingredient: RecipeIngredient, index: number) => (
           <div key={index} className="ingredient">
             <img src={ingredient.image} alt={ingredient.food} />
             <div className="ingredient-info">
