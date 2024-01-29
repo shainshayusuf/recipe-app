@@ -11,11 +11,14 @@ import "./style.css";
 
 export default function RecipeCard({ recipe , toggleFavourites }:
    { recipe: Recipe , toggleFavourites : (favourite : Favourite , isFavorite : boolean) => void }) {
+  // Destructuring props
   const { label, image, healthLabels, url, ingredients } = recipe;
 
+  // State variables
   const [isFavorite, setFavorite] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  // Function to toggle favorite status
   const toggleFavorite = () => {
     toggleFavourites({name : label , url} , !isFavorite);
     setFavorite(!isFavorite);
@@ -23,14 +26,18 @@ export default function RecipeCard({ recipe , toggleFavourites }:
 
   return (
     <div className={`recipe-card ${isFavorite ? 'favorite' : ''}`}>
-      <div className="recipe-label-info"> <img src={image} alt={label} />
+      <div className="recipe-label-info">
+        {/* Recipe image and label */}
+        <img src={image} alt={label} />
         <div className="recipe-action">
           <div className="recipe-details-wrapper">
+            {/* Recipe label with tooltip */}
             <Tooltip title={label}>
               <h3 className="recipe-details">{label}</h3>
             </Tooltip>
           </div>
           <div className="recipe-icons">
+            {/* Icons for favorite, view details, and external link */}
             <FavoriteIcon style={{ color: isFavorite ? '#f39c12' : 'gray', cursor: 'pointer' }} onClick={toggleFavorite} />
             <VisibilityIcon style={{ color: 'gray', cursor: 'pointer' }} fontSize="default" onClick={() => setShowModal(true)} />
             <LinkIcon style={{ color: 'gray', cursor: 'pointer' }} fontSize="default" onClick={() => window.open(url)} />
@@ -38,6 +45,7 @@ export default function RecipeCard({ recipe , toggleFavourites }:
         </div>
       </div>
       <div>
+        {/* Display health labels */}
         {healthLabels && (
           <div className="health-labels">
             <strong>Health Labels:</strong>
@@ -47,7 +55,8 @@ export default function RecipeCard({ recipe , toggleFavourites }:
           </div>
         )}
       </div>
-     {showModal &&  <Modal
+      {/* Modal for displaying recipe details */}
+      {showModal &&  <Modal
         showModal={showModal}
         closeModal={() => setShowModal(false)}
         title="Recipe Details">
@@ -69,4 +78,3 @@ export default function RecipeCard({ recipe , toggleFavourites }:
     </div>
   );
 };
-

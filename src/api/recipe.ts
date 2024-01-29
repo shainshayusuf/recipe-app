@@ -2,9 +2,9 @@ import { RecipeApiResponse } from "../interfaces";
 import Fetch from "./fetch";
 
 const fetch = new Fetch({
-    base_url: 'https://api.edamam.com',
-    app_id: '48be923d',
-    app_key: '33d33a473a5d18d4a291cdb6e7a6ec39',
+    base_url: process.env.REACT_APP_EDAMAM__BASE_URL,
+    app_id: process.env.REACT_APP_EDAMAM_APP_ID,
+    app_key: process.env.REACT_APP_EDAMAM__APP_KEY,
   });
 
 

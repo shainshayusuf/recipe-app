@@ -10,17 +10,19 @@ import { get_recipes } from "../../api/recipe";
 
 import "./style.css";
 
-
 function Home() {
+    // State variables
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [recipeData, setRecipeData] = useState<RecipeResponse[]>([]);
     const [favorites, setFavorites] = useState<Favourite[]>([]);
     const [loading, setLoading] = useState(false);
 
+    // To handle changes in the search input
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
 
+    // To fetch recipes based on search query after form submission
     const fetchRecipes = async () => {
         setLoading(true);
         try {
@@ -43,17 +45,20 @@ function Home() {
         }
     };
 
+    // To handle form submission
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         fetchRecipes();
     };
 
     useEffect(() => {
+        // Clear recipe data when search query is empty
         if (!searchQuery) {
             setRecipeData([]);
         }
     }, [searchQuery]);
 
+    // To handle favorites
     const handleFavourites = (label: Favourite, isFavourite: boolean) => {
         if (isFavourite) {
             setFavorites([...favorites, label]);
@@ -63,7 +68,7 @@ function Home() {
         }
     }
 
-    //For handling the favorites menu
+    // To handle favorites menu
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -75,8 +80,8 @@ function Home() {
 
     return (
         <>
-            {loading && <Spinner />}
-            <h1 onClick={fetchRecipes}> Recipe Corner 🍔</h1>
+            {loading && <Spinner />} {/* Display spinner while loading */}
+            <h1 onClick={fetchRecipes}> Recipe Corner 🍔</h1> {/* Clicking title fetches recipes */}
             <form className="search-form" onSubmit={handleSearchSubmit}>
                 <input
                     className="text-input"
@@ -89,6 +94,7 @@ function Home() {
                 <input className="submit-button" type="submit" value="Search" />
             </form>
 
+            {/* Favorites icon and menu */}
             <div className="favourite-icon-home">
                 <IconButton
                     onClick={handleClick}
@@ -112,6 +118,7 @@ function Home() {
             </div>
 
             <div>
+                {/* Display instructions or results based on search */}
                 {(!searchQuery ) ? (
                     <p>Start typing in the search bar to find delicious recipes!</p>
                 ) : searchQuery && recipeData.length === 0 ? (
