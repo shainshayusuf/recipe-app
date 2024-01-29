@@ -31,10 +31,3 @@ Once the development server is running, you can access the app at `http://localh
 - Click on a recipe to view detailed information.
 - Click the heart icon to save a recipe to your favorites.
 
-## Contributing
-
-Contributions are welcome! If you have any suggestions or find any issues, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
